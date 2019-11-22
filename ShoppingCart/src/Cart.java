@@ -43,8 +43,11 @@ public class Cart {
 		}
 		
 		// this function adds item with id and specified quantity into cart.
-		public void addItemToCart(int id, int quantity)
+		public void addItemToCart(int id, int quantity) throws InvalidQuantityException
 		{
+			if (quantity < 1 || quantity > 1000)
+				throw new InvalidQuantityException("Invalid Quantity " + quantity);
+			
 			Item i = getItemById(id);
 			items.add(new ShoppingCartItem(i, quantity));
 			propertyChangeSupport.firePropertyChange("Item with id " + id + " and quantity " + quantity + " added to Cart", 0, 1);
@@ -93,8 +96,11 @@ public class Cart {
 		}
 		
 		// function to update quantity of item with id.
-		public void updateItemQuanity(int id, int newQuantity) throws ProductNotFoundException
+		public void updateItemQuanity(int id, int newQuantity) throws ProductNotFoundException, InvalidQuantityException
 		{
+			if (newQuantity < 1 || newQuantity > 1000)
+				throw new InvalidQuantityException("Invalid Quantity " + newQuantity);
+			
 			Item i = getItemById(id);
 			for (int j = 0; j < items.size(); ++j)
 			{
